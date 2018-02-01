@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Jan 31 14:52:24 2018
-
+Created on Thu Feb  1 12:15:48 2018
 @author: clawford
 """
 #======================
@@ -12,19 +11,25 @@ from tkinter import ttk
 from tkinter import scrolledtext
 from tkinter import Menu
 
-# Create instance
-win = tk.Tk()   
+win = tk.Tk()                           # Create instance 
+win.title("Python GUI")                 # Add a title
+tabControl = ttk.Notebook(win)          # Create Tab Control
+tab1 = ttk.Frame(tabControl)            # Create a tab
+tabControl.add(tab1, text='Tab 1')      # Add the tab
+tab2 = ttk.Frame(tabControl)            # Create a tab
+tabControl.add(tab2, text='Tab 2')      # Add the tab
 
-# Add a title       
-win.title("Python GUI")
+tabControl.pack(expand=1, fill="both")  # Pack to make visible
 
 # We are creating a container frame to hold all other widgets
-mighty = ttk.LabelFrame(win, text=' Mighty Python ')
+mighty = ttk.LabelFrame(tab1, text=' Mighty Python ')
 mighty.grid(column=0, row=0, padx=8, pady=4)
 
 # Modify adding a using mighty as the parent instead of win
 a_label = ttk.Label(mighty, text="Enter a name:")
 a_label.grid(column=0, row=0, sticky='W')
+
+ttk.Label(mighty, text='Choose a number:').grid(column=1, row=0)
 
 # Modified Button Click Function
 def click_me():
