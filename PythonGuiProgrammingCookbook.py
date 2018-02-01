@@ -60,41 +60,27 @@ check3 = tk.Checkbutton(win, text ="Enabled", variable = chVarEn)
 check3.select()
 check3.grid(column=2, row=4, sticky=tk.W)
 
-# Radiobutton Globals
-COLOR1 = "Blue"
-COLOR2 = "Gold"
-COLOR3 = "Red"
-
+# First, we change our Radiobutton global variables into a list
+colors = ["Blue", "Gold", "Red"]
+# We have also changed the callback function to tbe zero-based, using the list
+# instead of module-level global variables
 # Radiobutton Callback
 def radCall():
     radSel = radVar.get()
-    if   radSel == 1: win.configure(background=COLOR1)
-    elif radSel == 2: win.configure(background=COLOR2)
-    elif radSel == 3: win.configure(background=COLOR3)
+    if   radSel == 0: win.configure(background=colors[0]) # now zero-based
+    elif radSel == 1: win.configure(background=colors[1]) # and using list
+    elif radSel == 2: win.configure(background=colors[2])
+
 
 # Create three Radiobuttons using one variable
 radVar = tk.IntVar()
 
-rad1 = tk.Radiobutton(win, text = COLOR1, variable = radVar, value = 1, command = radCall)
-rad1.grid(column = 0, row = 5, sticky = tk.W, columnspan = 3) 
+# Next we are selecting a non-existing index values for radVar
+radVar.set(99)
 
-rad2 = tk.Radiobutton(win, text = COLOR2, variable = radVar, value = 2, command = radCall)
-rad2.grid(column = 1, row = 5, sticky = tk.W, columnspan = 3) 
-
-rad3 = tk.Radiobutton(win, text = COLOR3, variable = radVar, value = 3, command = radCall)
-rad3.grid(column = 2, row = 5, sticky = tk.W, columnspan = 3) 
-
-
-
-
-
-
-
-
-
-
-
-
+for col in range(3):
+    curRad = tk.Radiobutton(win, text = colors[col], variable = radVar, value = col, command = radCall)
+    curRad.grid(column = col, row = 5, sticky = tk.W) 
 
 # Using a scrolled Text control
 scrol_w = 50
