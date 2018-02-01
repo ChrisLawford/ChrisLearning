@@ -10,6 +10,7 @@ Created on Wed Jan 31 14:52:24 2018
 import tkinter as tk
 from tkinter import ttk
 from tkinter import scrolledtext
+from tkinter import Menu
 
 # Create instance
 win = tk.Tk()   
@@ -102,7 +103,29 @@ ttk.Label(buttons_frame, text="Label3").grid(column=2, row=0, sticky=tk.W)
 
 for child in buttons_frame.winfo_children():
     child.grid_configure(padx=8, pady=4)
-    
+
+#Exit GUI cleanly
+def _quit():
+    win.quit()
+    win.destroy()
+    exit()
+
+#Creating a Menu Bar
+menu_bar = Menu(win)
+win.config(menu=menu_bar)
+
+# Create menu and add menu items
+file_menu = Menu(menu_bar, tearoff=0)          # create File menu
+file_menu.add_command(label="New")  # add File menu item
+file_menu.add_separator()           # add separator item
+file_menu.add_command(label="Exit", command=_quit)  # add exit menu item
+menu_bar.add_cascade(label="File", menu=file_menu) #add File menu to menu bar and give it a label
+
+# Add another Menu to the Manu Bar and an item
+help_menu = Menu(menu_bar, tearoff=0)
+menu_bar.add_cascade(label="Help", menu=help_menu)
+help_menu.add_command(label="About")
+
 name_entered.focus()    # Place cursor into name Entry
 #======================
 # Start GUI
