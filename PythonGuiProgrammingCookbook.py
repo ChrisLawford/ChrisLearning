@@ -17,47 +17,48 @@ win = tk.Tk()
 # Add a title       
 win.title("Python GUI")
 
-# Adding a Label that will get modified
-a_label = ttk.Label(win, text="A Label")
-a_label.grid(column=0, row=0)
+# We are creating a container frame to hold all other widgets
+mighty = ttk.LabelFrame(win, text=' Mighty Python ')
+mighty.grid(column=0, row=0, padx=8, pady=4)
+
+# Modify adding a using mighty as the parent instead of win
+a_label = ttk.Label(mighty, text="Enter a name:")
+a_label.grid(column=0, row=0, sticky='W')
 
 # Modified Button Click Function
 def click_me():
     action.configure(text="Hello " + name.get() + ' ' + number_chosen.get())
     
-# Changing our Label
-ttk.Label(win, text="Enter a name:").grid(column=0,row=0)
-
-# Adding a Text box Entry widget
+# Adding a Textbox Entry widget
 name = tk.StringVar()
-name_entered = ttk.Entry(win, width=12, textvariable = name)
-name_entered.grid(column=0,row=1)
+name_entered = ttk.Entry(mighty, width=12, textvariable=name)
+name_entered.grid(column=0, row=1, sticky='W')
 
 # Adding a Button
-action = ttk.Button(win, text="Click Me!", command=click_me)
+action = ttk.Button(mighty, text="Click Me!", command=click_me)
 action.grid(column=2, row=1)
 
 # Creating three checkbuttons
-ttk.Label(win,text='Choose a number:').grid(column=1, row=0)
-number =tk.StringVar()
-number_chosen = ttk.Combobox(win,width = 12, textvariable = number, state = 'readonly')
-number_chosen['values'] = (1, 2, 4, 43, 100)
-number_chosen.grid(column= 1, row=1)
+ttk.Label(mighty, text='Choose a number:').grid(column=1, row=0)
+number = tk.StringVar()
+number_chosen = ttk.Combobox(mighty, width=12, textvariable=number, state='readonly')
+number_chosen['values'] = (1, 2, 4, 42, 100)
+number_chosen.grid(column=1, row=1)
 number_chosen.current(0)
 
 chVarDis = tk.IntVar()
-check1 = tk.Checkbutton(win, text ="Disabled", variable = chVarDis, state= 'disabled')
+check1 = tk.Checkbutton(mighty, text="Disabled", variable=chVarDis, state='disabled')
 check1.select()
 check1.grid(column=0, row=4, sticky=tk.W)
 
 chVarUn = tk.IntVar()
-check2 = tk.Checkbutton(win, text ="Unchecked", variable = chVarUn)
+check2 = tk.Checkbutton(mighty, text="UnChecked", variable=chVarUn)
 check2.deselect()
 check2.grid(column=1, row=4, sticky=tk.W)
 
 chVarEn = tk.IntVar()
-check3 = tk.Checkbutton(win, text ="Enabled", variable = chVarEn)
-check3.select()
+check3 = tk.Checkbutton(mighty, text="Enabled", variable=chVarEn)
+check3.deselect()
 check3.grid(column=2, row=4, sticky=tk.W)
 
 # First, we change our Radiobutton global variables into a list
@@ -80,27 +81,28 @@ radVar = tk.IntVar()
 radVar.set(99)
 
 for col in range(3):
-    curRad = tk.Radiobutton(win, text = colors[col], variable = radVar, value = col, command = radCall)
-    curRad.grid(column = col, row = 5, sticky = tk.W) 
+    curRad = tk.Radiobutton(mighty, text=colors[col], variable=radVar, value=col, command=radCall)
+    curRad.grid(column=col, row=6, sticky=tk.W) 
 
 # Using a scrolled Text control
-scrol_w = 50
+scrol_w = 30
 scrol_h = 3
-scr = scrolledtext.ScrolledText(win, width = scrol_w, height = scrol_h, wrap = tk.WORD)
-scr.grid(column = 0, columnspan =3)
+scr = scrolledtext.ScrolledText(mighty, width=scrol_w, height=scrol_h, wrap=tk.WORD)
+scr.grid(column=0, row=5, columnspan=3)
 
-# Create a container to gold labels
-buttons_frame = ttk.LabelFrame(win, text=' Labels in a Frame ')
-buttons_frame.grid(column = 0, row = 7, padx=20, pady=40)
-#buttons_frame.grid(column = 1, row = 7)
+# Create a container to hold labels
+buttons_frame = ttk.LabelFrame(mighty, text=' Labels in a Frame ')
+#buttons_frame.grid(column=0, row=7, padx=20, pady=40)
+buttons_frame.grid(column=0, row=7)
 
 # Place labels into the container element
-ttk.Label(buttons_frame, text="Label1").grid(column = 0, row = 0, sticky= tk.W)
-ttk.Label(buttons_frame, text="Label2").grid(column = 1, row = 0, sticky= tk.W)
-ttk.Label(buttons_frame, text="Label3").grid(column = 2, row = 0, sticky= tk.W)
+ttk.Label(buttons_frame, text="Label1").grid(column=0, row=0, sticky=tk.W)
+ttk.Label(buttons_frame, text="Label2").grid(column=1, row=0, sticky=tk.W)
+ttk.Label(buttons_frame, text="Label3").grid(column=2, row=0, sticky=tk.W)
 
 for child in buttons_frame.winfo_children():
-    child.grid_configure(padx = 8, pady = 4)
+    child.grid_configure(padx=8, pady=4)
+    
 name_entered.focus()    # Place cursor into name Entry
 #======================
 # Start GUI
