@@ -11,7 +11,45 @@ from tkinter import ttk
 from tkinter import scrolledtext
 from tkinter import Menu
 from tkinter import messagebox as msg
+from tkinter import Spinbox
 
+class ToolTip(object):
+    def __init__(self,widget):
+        self.widget = widget
+        self.tip_window = None
+
+    def show_tip(self, tip_text):
+        "Display text in a tooltip window"
+        if self.tip_window or not tip_text:
+            return
+        x, y, _cx, cy = self.widget.bbox("insert")
+        x = x + self.widget.winfo_rootx() + 25                  # calculate to display tooltip
+        y = y + cy + self.widget.winfo_rooty() + 25             # calculate to display tooltip
+        self.tip_window = tw = tk.Toplevel(self.widget)         # below and to the right
+        tw.wm_overrideredirect(True)                            # remove all Window Manager (wm) decorations
+#        tw.wm_overrideredirect(False)                           # uncomment to see the effect
+        tw.wm_geometry("+%d+%d" % (x, y))                       # create window size
+        
+        label = tk.Label(tw, text=tip_text, justify=tk.LEFT,
+                         background="#ffffe0", relief=tk.SOLID, borderwidth=1,
+                         font=("tahoma","8", "normal"))
+        label.pack(ipadx=1)
+    def hide_tip(self):
+        tw = self.tip_window
+        self.tip_window = None
+        if tw:
+            tw.destroy()
+
+#==============================================================================
+def create_ToolTip(widget,text):
+    toolTip=ToolTip(widget)             # create instance of class
+    def enter(event):
+        toolTip.show_tip(text)
+    def leave(event):
+        toolTip.hide_tip()
+    widget.bind('<Enter>', enter)       # bind mouse events
+    widget.bind('<Leave>', leave)
+    
 win = tk.Tk()                           # Create instance 
 win.title("Python GUI")                 # Add a title
 tabControl = ttk.Notebook(win)          # Create Tab Control
@@ -95,12 +133,30 @@ radVar.set(99)
 for col in range(3):
     curRad = tk.Radiobutton(mighty2, text=colors[col], variable=radVar, value=col, command=radCall)
     curRad.grid(column=col, row=6, sticky=tk.W) 
+    
+# Spinbox callback
+def _spin():
+    value = spin.get()
+    print(value)
+    scr.insert(tk.INSERT, value + '\n')
+
+# Adding a Spinbox widget
+spin = Spinbox(mighty, from_=0, to=10, width=5, bd=8, command=_spin)
+spin.grid(column=0,row=2)
+
+# Adding a Spinbox widget
+spin = Spinbox(mighty, values=(0, 50, 100), width=5, bd=20, command=_spin)
+spin.grid(column=1,row=2)
 
 # Using a scrolled Text control
 scrol_w = 30
 scrol_h = 3
 scr = scrolledtext.ScrolledText(mighty, width=scrol_w, height=scrol_h, wrap=tk.WORD)
 scr.grid(column=0, row=5, columnspan=3)
+
+
+# Add a Tooltip
+create_ToolTip(scr, 'This is a ScrolledText widget')
 
 # Create a container to hold labels
 buttons_frame = ttk.LabelFrame(mighty2, text=' Labels in a Frame ')
