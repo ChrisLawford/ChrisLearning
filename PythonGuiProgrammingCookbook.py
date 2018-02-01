@@ -91,8 +91,8 @@ scr.grid(column = 0, columnspan =3)
 
 # Create a container to gold labels
 buttons_frame = ttk.LabelFrame(win, text=' Labels in a Frame ')
-# buttons_frame.grid(column = 0, row = 7)
-buttons_frame.grid(column = 1, row = 7)
+buttons_frame.grid(column = 0, row = 7, padx=20, pady=40)
+#buttons_frame.grid(column = 1, row = 7)
 
 # Place labels into the container element
 ttk.Label(buttons_frame, text="Label1").grid(column = 0, row = 0, sticky= tk.W)
