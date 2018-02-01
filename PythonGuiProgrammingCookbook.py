@@ -9,6 +9,7 @@ Created on Wed Jan 31 14:52:24 2018
 #======================
 import tkinter as tk
 from tkinter import ttk
+from tkinter import scrolledtext
 
 # Create instance
 win = tk.Tk()   
@@ -83,8 +84,25 @@ rad2.grid(column = 1, row = 5, sticky = tk.W, columnspan = 3)
 rad3 = tk.Radiobutton(win, text = COLOR3, variable = radVar, value = 3, command = radCall)
 rad3.grid(column = 2, row = 5, sticky = tk.W, columnspan = 3) 
 
-name_entered.focus()    # Place cursor into name Entry
 
+
+
+
+
+
+
+
+
+
+
+
+# Using a scrolled Text control
+scrol_w = 50
+scrol_h = 3
+scr = scrolledtext.ScrolledText(win, width = scrol_w, height = scrol_h, wrap = tk.WORD)
+scr.grid(column = 0, columnspan =3)
+
+name_entered.focus()    # Place cursor into name Entry
 #======================
 # Start GUI
 #======================
