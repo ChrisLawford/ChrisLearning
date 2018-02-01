@@ -12,6 +12,7 @@ from tkinter import scrolledtext
 from tkinter import Menu
 from tkinter import messagebox as msg
 from tkinter import Spinbox
+from time import sleep
 
 class ToolTip(object):
     def __init__(self,widget):
@@ -154,19 +155,37 @@ scrol_h = 3
 scr = scrolledtext.ScrolledText(mighty, width=scrol_w, height=scrol_h, wrap=tk.WORD)
 scr.grid(column=0, row=5, columnspan=3)
 
-
 # Add a Tooltip
 create_ToolTip(scr, 'This is a ScrolledText widget')
 
 # Create a container to hold labels
-buttons_frame = ttk.LabelFrame(mighty2, text=' Labels in a Frame ')
+buttons_frame = ttk.LabelFrame(mighty2, text='ProgressBar')
 #buttons_frame.grid(column=0, row=7, padx=20, pady=40)
 buttons_frame.grid(column=0, row=7)
 
-# Place labels into the container element
-ttk.Label(buttons_frame, text="Label1").grid(column=0, row=0, sticky=tk.W)
-ttk.Label(buttons_frame, text="Label2").grid(column=1, row=0, sticky=tk.W)
-ttk.Label(buttons_frame, text="Label3").grid(column=2, row=0, sticky=tk.W)
+#update Progressbar in callback loop
+def run_progressbar():
+    progress_bar['maximum'] = 100
+    for i in range(101):
+        sleep(0.05)
+        progress_bar["value"] = i   # increment progressbar
+        progress_bar.update()
+    progress_bar["value"] = 0
+
+def start_progressbar():
+    progress_bar.start()
+
+def stop_progressbar():
+    progress_bar.stop()
+
+def progressbar_stop_after(wait_ms=1000):
+    win.after(wait_ms, progress_bar.stop)
+    
+# Place buttons into the container element
+ttk.Button(buttons_frame, text="Run Progressbar",   command=run_progressbar    ).grid(column=0, row=0, sticky=tk.W)
+ttk.Button(buttons_frame, text="Start Progressbar", command=start_progressbar  ).grid(column=0, row=1, sticky=tk.W)
+ttk.Button(buttons_frame, text="Stop immediately",  command=stop_progressbar   ).grid(column=0, row=2, sticky=tk.W)
+ttk.Button(buttons_frame, text="Stop after second", command=run_progressbar    ).grid(column=0, row=3, sticky=tk.W)
 
 for child in buttons_frame.winfo_children():
     child.grid_configure(padx=8, pady=4)
@@ -199,6 +218,13 @@ def _msgBox():
 help_menu = Menu(menu_bar, tearoff=0)
 help_menu.add_command(label="About", command=_msgBox)   # display messagebox when clicked
 menu_bar.add_cascade(label="Help", menu=help_menu)
+
+# Add a Progressbar to Tab 2
+progress_bar = ttk.Progressbar(tab2, orient='horizontal', length=286, mode='determinate')
+progress_bar.grid(column=0, row=3, pady=2)
+
+
+    
 
 name_entered.focus()    # Place cursor into name Entry
 #======================
