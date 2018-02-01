@@ -10,6 +10,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import scrolledtext
 from tkinter import Menu
+from tkinter import messagebox as msg
 
 win = tk.Tk()                           # Create instance 
 win.title("Python GUI")                 # Add a title
@@ -24,6 +25,11 @@ tabControl.pack(expand=1, fill="both")  # Pack to make visible
 # We are creating a container frame to hold all other widgets
 mighty = ttk.LabelFrame(tab1, text=' Mighty Python ')
 mighty.grid(column=0, row=0, padx=8, pady=4)
+
+# We are creating a container frame to hold all other widgets
+mighty2 = ttk.LabelFrame(tab2, text=' The Snake ')
+mighty2.grid(column=0, row=0, padx=8, pady=4)
+
 
 # Modify adding a using mighty as the parent instead of win
 a_label = ttk.Label(mighty, text="Enter a name:")
@@ -53,17 +59,17 @@ number_chosen.grid(column=1, row=1)
 number_chosen.current(0)
 
 chVarDis = tk.IntVar()
-check1 = tk.Checkbutton(mighty, text="Disabled", variable=chVarDis, state='disabled')
+check1 = tk.Checkbutton(mighty2, text="Disabled", variable=chVarDis, state='disabled')
 check1.select()
 check1.grid(column=0, row=4, sticky=tk.W)
 
 chVarUn = tk.IntVar()
-check2 = tk.Checkbutton(mighty, text="UnChecked", variable=chVarUn)
+check2 = tk.Checkbutton(mighty2, text="UnChecked", variable=chVarUn)
 check2.deselect()
 check2.grid(column=1, row=4, sticky=tk.W)
 
 chVarEn = tk.IntVar()
-check3 = tk.Checkbutton(mighty, text="Enabled", variable=chVarEn)
+check3 = tk.Checkbutton(mighty2, text="Enabled", variable=chVarEn)
 check3.deselect()
 check3.grid(column=2, row=4, sticky=tk.W)
 
@@ -75,9 +81,9 @@ colors = ["Blue", "Gold", "Red"]
 # Radiobutton Callback
 def radCall():
     radSel = radVar.get()
-    if   radSel == 0: win.configure(background=colors[0]) # now zero-based
-    elif radSel == 1: win.configure(background=colors[1]) # and using list
-    elif radSel == 2: win.configure(background=colors[2])
+    if   radSel == 0: mighty2.configure(text=colors[0]) # now zero-based
+    elif radSel == 1: mighty2.configure(text=colors[1]) # and using list
+    elif radSel == 2: mighty2.configure(text=colors[2])
 
 
 # Create three Radiobuttons using one variable
@@ -87,7 +93,7 @@ radVar = tk.IntVar()
 radVar.set(99)
 
 for col in range(3):
-    curRad = tk.Radiobutton(mighty, text=colors[col], variable=radVar, value=col, command=radCall)
+    curRad = tk.Radiobutton(mighty2, text=colors[col], variable=radVar, value=col, command=radCall)
     curRad.grid(column=col, row=6, sticky=tk.W) 
 
 # Using a scrolled Text control
@@ -97,7 +103,7 @@ scr = scrolledtext.ScrolledText(mighty, width=scrol_w, height=scrol_h, wrap=tk.W
 scr.grid(column=0, row=5, columnspan=3)
 
 # Create a container to hold labels
-buttons_frame = ttk.LabelFrame(mighty, text=' Labels in a Frame ')
+buttons_frame = ttk.LabelFrame(mighty2, text=' Labels in a Frame ')
 #buttons_frame.grid(column=0, row=7, padx=20, pady=40)
 buttons_frame.grid(column=0, row=7)
 
@@ -126,10 +132,17 @@ file_menu.add_separator()           # add separator item
 file_menu.add_command(label="Exit", command=_quit)  # add exit menu item
 menu_bar.add_cascade(label="File", menu=file_menu) #add File menu to menu bar and give it a label
 
+def _msgBox():
+#    msg.showinfo('Python Message Info Box', 'A Python GUI created using tkinter: \nThe year is 2017. ')
+#    msg.showwarning('Python Message Warning Box', 'A Python GUI created using tkinter: \nThere might be a bug in this code. ')
+#    msg.showerror('Python Message Error Box', 'A Python GUI created using tkinter: \nError: Houston ~ we DO have a serious PROBLEM! ')
+    answer = msg.askyesnocancel('Python Message Multi Choice Box','Are you sure you really want to do this?')    
+    print(answer)
+
 # Add another Menu to the Manu Bar and an item
 help_menu = Menu(menu_bar, tearoff=0)
+help_menu.add_command(label="About", command=_msgBox)   # display messagebox when clicked
 menu_bar.add_cascade(label="Help", menu=help_menu)
-help_menu.add_command(label="About")
 
 name_entered.focus()    # Place cursor into name Entry
 #======================
