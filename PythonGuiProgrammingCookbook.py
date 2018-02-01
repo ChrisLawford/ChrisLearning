@@ -62,6 +62,7 @@ check3.grid(column=2, row=4, sticky=tk.W)
 
 # First, we change our Radiobutton global variables into a list
 colors = ["Blue", "Gold", "Red"]
+
 # We have also changed the callback function to tbe zero-based, using the list
 # instead of module-level global variables
 # Radiobutton Callback
@@ -87,6 +88,17 @@ scrol_w = 50
 scrol_h = 3
 scr = scrolledtext.ScrolledText(win, width = scrol_w, height = scrol_h, wrap = tk.WORD)
 scr.grid(column = 0, columnspan =3)
+
+# Create a container to gold labels
+buttons_frame = ttk.LabelFrame(win, text=' Labels in a Frame ')
+# buttons_frame.grid(column = 0, row = 7)
+buttons_frame.grid(column = 1, row = 7)
+
+# Place labels into the container element
+ttk.Label(buttons_frame, text="Label1").grid(column = 0, row = 0, sticky= tk.W)
+ttk.Label(buttons_frame, text="Label2").grid(column = 1, row = 0, sticky= tk.W)
+ttk.Label(buttons_frame, text="Label3").grid(column = 2, row = 0, sticky= tk.W)
+
 
 name_entered.focus()    # Place cursor into name Entry
 #======================
