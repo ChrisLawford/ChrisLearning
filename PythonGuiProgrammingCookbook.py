@@ -58,6 +58,8 @@ tab1 = ttk.Frame(tabControl)            # Create a tab
 tabControl.add(tab1, text='Tab 1')      # Add the tab
 tab2 = ttk.Frame(tabControl)            # Create a tab
 tabControl.add(tab2, text='Tab 2')      # Add the tab
+tab3 = ttk.Frame(tabControl)            # Create a tab
+tabControl.add(tab3, text='Tab 3')      # Add the tab
 
 tabControl.pack(expand=1, fill="both")  # Pack to make visible
 
@@ -169,8 +171,8 @@ def run_progressbar():
     for i in range(101):
         sleep(0.05)
         progress_bar["value"] = i   # increment progressbar
-        progress_bar.update()
-    progress_bar["value"] = 0
+        progress_bar.update()       # have to call update() in loop
+    progress_bar["value"] = 0       #reset/clear progressbar
 
 def start_progressbar():
     progress_bar.start()
@@ -223,6 +225,12 @@ menu_bar.add_cascade(label="Help", menu=help_menu)
 progress_bar = ttk.Progressbar(tab2, orient='horizontal', length=286, mode='determinate')
 progress_bar.grid(column=0, row=3, pady=2)
 
+# Tab Control 3
+tab3_frame = tk.Frame(tab3, bg='blue')
+tab3_frame.pack()
+for orange_color in range(2):
+    canvas = tk.Canvas(tab3_frame, width=150, height=80, highlightthickness=0, bg='orange')
+    canvas.grid(row=orange_color, column=orange_color)
 
     
 
