@@ -14,17 +14,26 @@ from tkinter import messagebox as msg
 from tkinter import Spinbox
 from time import sleep
 import GUI_tabbed as tt
+from threading import Thread
 
 GLOBAL_CONST = 42
 
 
 
 class OOP():
+    def method_in_a_thread(self, num_of_loops=10):
+        print('Hi, how are you?')
+        for idx in range(num_of_loops):
+            sleep(1)
+            self.scr.insert(tk.INSERT, str(idx) +'\n')
+        sleep(1)
+        print('method_in_a_thread():', self.run_thread.isAlive())
+        
     def __init__(self):
         # Create instance
         self.win = tk.Tk()                  # Create instance 
         
-        tt.create_ToolTip(self.win, 'Hello GUI')
+        #tt.create_ToolTip(self.win, 'Hello GUI')
         
         self.win.title("Python GUI")        # Add a title
         self.create_widgets()
@@ -32,6 +41,7 @@ class OOP():
     # Button callback
     def click_me(self):
         self.action.configure(text="Hello " + self.name.get() + ' ' + self.number_chosen.get())
+        self.create_thread()
     
     # We have also changed the callback function to tbe zero-based, using the list
     # instead of module-level global variables
@@ -84,7 +94,15 @@ class OOP():
         print(GLOBAL_CONST)
         GLOBAL_CONST = 777
         print(GLOBAL_CONST)
-
+        
+    # Running mehtods in Threads
+    def create_thread(self):
+        self.run_thread = Thread(target=self.method_in_a_thread, args=[8])
+        self.run_thread.setDaemon(True)
+        self.run_thread.start()
+        print(self.run_thread)
+        print('createThread():',self.run_thread.isAlive())
+        
 ###############################################################################
     
     def create_widgets(self):
@@ -114,7 +132,7 @@ class OOP():
         
         # Adding a Textbox Entry widget
         self.name = tk.StringVar()
-        self.name_entered = ttk.Entry(mighty, width=12, textvariable=self.name)
+        self.name_entered = ttk.Entry(mighty, width=24, textvariable=self.name)
         self.name_entered.grid(column=0, row=1, sticky='W')
             
         # Adding a Button
@@ -124,7 +142,7 @@ class OOP():
         # Creating three checkbuttons
         ttk.Label(mighty, text='Choose a number:').grid(column=1, row=0)
         number = tk.StringVar()
-        self.number_chosen = ttk.Combobox(mighty, width=12, textvariable=number, state='readonly')
+        self.number_chosen = ttk.Combobox(mighty, width=14, textvariable=number, state='readonly')
         self.number_chosen['values'] = (1, 2, 4, 42, 100)
         self.number_chosen.grid(column=1, row=1)
         self.number_chosen.current(0)
@@ -161,17 +179,17 @@ class OOP():
             
         # Adding a Spinbox widget
         self.spin = Spinbox(mighty, from_=0, to=10, width=5, bd=8, command=self._spin)
-        self.spin.grid(column=0,row=2)
+        self.spin.grid(column=0,row=2, sticky = 'W')
 
         # Adding a Spinbox widget
-        self.spin = Spinbox(mighty, values=(0, 50, 100), width=5, bd=20, command=self._spin)
-        self.spin.grid(column=1,row=2)
+        #self.spin = Spinbox(mighty, values=(0, 50, 100), width=5, bd=20, command=self._spin)
+        #self.spin.grid(column=1,row=2)
         
         # Using a scrolled Text control
-        scrol_w = 30
-        scrol_h = 3
+        scrol_w = 40
+        scrol_h = 10
         self.scr = scrolledtext.ScrolledText(mighty, width=scrol_w, height=scrol_h, wrap=tk.WORD)
-        self.scr.grid(column=0, row=5, columnspan=3)
+        self.scr.grid(column=0, row=3, columnspan=3)
         
         # Add a Tooltip
         tt.create_ToolTip(self.scr, 'This is a ScrolledText widget')
@@ -238,4 +256,8 @@ class OOP():
 # Start GUI
 #======================
 oop = OOP()
+
+# Running methods in Threads
+run_thread = Thread(target = oop.method_in_a_thread)
 oop.win.mainloop()
+
