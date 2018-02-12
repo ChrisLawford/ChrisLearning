@@ -16,6 +16,7 @@ from time import sleep
 import GUI_tabbed as tt
 from threading import Thread
 from queue import Queue
+import Queues as bq
 
 GLOBAL_CONST = 42
 
@@ -38,11 +39,15 @@ class OOP():
         
         self.win.title("Python GUI")        # Add a title
         self.create_widgets()
+        self.gui_queue = Queue()
     
     # Button callback
     def click_me(self):
         self.action.configure(text="Hello " + self.name.get() + ' ' + self.number_chosen.get())
-        self.create_thread()
+        #self.create_thread()
+        # Passing the current class instance (self)
+        print(self)
+        bq.write_to_scrol(self)
         # now started as a thread in create_thread()
         #self.use_queues()
     
@@ -110,15 +115,10 @@ class OOP():
         write_thread.start()
         print(write_thread)
         
-    
-    # Create queue instance
     def use_queues(self):
-        gui_queue = Queue()
-        print(gui_queue)
-        for idx in range(10):
-            gui_queue.put('Message from a Queue: ' + str(idx))
+        # Now using a class memeber of Queue
         while True:
-            print(gui_queue.get())
+            print(self.gui_queue.get())
 ###############################################################################
     
     def create_widgets(self):
@@ -274,6 +274,6 @@ class OOP():
 oop = OOP()
 
 # Running methods in Threads
-run_thread = Thread(target = oop.method_in_a_thread)
+#run_thread = Thread(target = oop.method_in_a_thread)
 oop.win.mainloop()
 
