@@ -15,6 +15,7 @@ from tkinter import Spinbox
 from time import sleep
 import GUI_tabbed as tt
 from threading import Thread
+from queue import Queue
 
 GLOBAL_CONST = 42
 
@@ -42,6 +43,8 @@ class OOP():
     def click_me(self):
         self.action.configure(text="Hello " + self.name.get() + ' ' + self.number_chosen.get())
         self.create_thread()
+        # now started as a thread in create_thread()
+        #self.use_queues()
     
     # We have also changed the callback function to tbe zero-based, using the list
     # instead of module-level global variables
@@ -102,7 +105,20 @@ class OOP():
         self.run_thread.start()
         print(self.run_thread)
         print('createThread():',self.run_thread.isAlive())
+        #start queue in its own thread
+        write_thread = Thread(target=self.use_queues, daemon=True)
+        write_thread.start()
+        print(write_thread)
         
+    
+    # Create queue instance
+    def use_queues(self):
+        gui_queue = Queue()
+        print(gui_queue)
+        for idx in range(10):
+            gui_queue.put('Message from a Queue: ' + str(idx))
+        while True:
+            print(gui_queue.get())
 ###############################################################################
     
     def create_widgets(self):
