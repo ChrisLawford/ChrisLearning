@@ -14,6 +14,8 @@ from tkinter import messagebox as msg
 from tkinter import Spinbox
 from time import sleep
 
+GLOBAL_CONST = 42
+
 class ToolTip(object):
     def __init__(self,widget):
         self.widget = widget
@@ -232,7 +234,16 @@ for orange_color in range(2):
     canvas = tk.Canvas(tab3_frame, width=150, height=80, highlightthickness=0, bg='orange')
     canvas.grid(row=orange_color, column=orange_color)
 
-    
+# get data from a widget
+strData = spin.get()
+print("Spinbox value: " + strData)
+
+def usingGlobal():
+    global GLOBAL_CONST
+    print(GLOBAL_CONST)
+    GLOBAL_CONST = 777
+    print(GLOBAL_CONST)
+usingGlobal()
 
 name_entered.focus()    # Place cursor into name Entry
 #======================
